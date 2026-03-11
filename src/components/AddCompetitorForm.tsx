@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { UserPlus } from 'lucide-react';
 
 interface Props {
-  onAdd: (name: string, gender: string, equipment: string, age: number, bodyweight: number) => void;
+  onAdd: (name: string, gender: 'Masculino' | 'Femenino', equipment: string, age: number, bodyweight: number) => void;
 }
 
 export const AddCompetitorForm: React.FC<Props> = ({ onAdd }) => {
@@ -14,8 +14,8 @@ export const AddCompetitorForm: React.FC<Props> = ({ onAdd }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (name.trim() && age && weight) {
-      onAdd(name.trim(), gender, equipment, parseInt(age, 10), parseFloat(weight));
+    if (name.trim() && age && weight && (gender === 'Masculino' || gender === 'Femenino')) {
+      onAdd(name.trim(), gender as 'Masculino' | 'Femenino', equipment, parseInt(age, 10), parseFloat(weight));
       setName('');
       setGender('');
       setEquipment('');

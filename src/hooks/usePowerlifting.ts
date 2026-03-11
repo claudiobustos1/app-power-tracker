@@ -30,7 +30,7 @@ export const usePowerlifting = () => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(competitors));
   }, [competitors]);
 
-  const addCompetitor = (name: string, gender: string, equipment: string, age: number, bodyweight: number) => {
+  const addCompetitor = (name: string, gender: 'Masculino' | 'Femenino', equipment: string, age: number, bodyweight: number) => {
     const newCompetitor: Competitor = {
       id: crypto.randomUUID(),
       name,

@@ -6,7 +6,7 @@ export interface Attempt {
 export interface Competitor {
   id: string;
   name: string;
-  gender: string;
+  gender: 'Masculino' | 'Femenino';
   equipment: string;
   age: number;
   category: string;

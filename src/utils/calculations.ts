@@ -56,7 +56,7 @@ export const calculateWilksPoints = (competitor: Competitor): number => {
     e = 4.7315822e-5;
     f = -9.054e-8;
   } else {
-    // Default to Men's coefficients for Masculino and Otro
+    // Coeficientes masculinos
     a = -216.0475144;
     b = 16.2606339;
     c = -0.002388645;
@@ -90,7 +90,7 @@ export const calculateGLPoints = (competitor: Competitor): number => {
       A = 610.32796; B = 1045.59282; C = 0.03048;
     }
   } else {
-    // Male or 'Otro' (using Male coefficients as default for biological men category usually applied)
+    // Coeficientes masculinos
     if (isEquipped) {
       A = 1236.25115; B = 1449.21864; C = 0.01644;
     } else {
