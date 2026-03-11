@@ -3,18 +3,24 @@ import { usePowerlifting } from './hooks/usePowerlifting';
 import { AddCompetitorForm } from './components/AddCompetitorForm';
 import { CompetitorCard } from './components/CompetitorCard';
 import { RankingView } from './components/RankingView';
-import { Trophy, Activity, Users, BarChart2 } from 'lucide-react';
+import { Trophy, Activity, Users, BarChart2, Search } from 'lucide-react';
 import { Competitor } from './types';
 
 function App() {
   const { competitors, addCompetitor, removeCompetitor, updateCategory, addAttempt, removeAttempt } = usePowerlifting();
   const [currentView, setCurrentView] = React.useState<'home' | 'ranking'>('home');
+  const [searchQuery, setSearchQuery] = React.useState('');
   
   // Sort competitors by total descending for stats computation
   const sortedCompetitors = [...competitors].sort((a, b) => b.total - a.total);
 
-  // Group competitors by Category
-  const groupedCompetitors = competitors.reduce((groups, competitor) => {
+  // Filter competitors by search query
+  const filteredCompetitors = competitors.filter(c => 
+    c.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Group filtered competitors by Category
+  const groupedCompetitors = filteredCompetitors.reduce((groups, competitor) => {
     const category = competitor.category || 'Sin Categoría';
     if (!groups[category]) {
       groups[category] = [];
@@ -77,7 +83,23 @@ function App() {
 
       <AddCompetitorForm onAdd={addCompetitor} />
 
-      {competitors.length > 0 ? (
+      {competitors.length > 0 && (
+        <div className="mb-6 relative">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" style={{ position: 'absolute', height: '100%', left: '12px', display: 'flex', alignItems: 'center' }}>
+            <Search size={18} className="text-secondary" />
+          </div>
+          <input
+            type="text"
+            className="input-field w-full"
+            placeholder="Buscar competidor por nombre..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={{ width: '100%', paddingLeft: '2.5rem', background: 'var(--glass-bg)', borderColor: 'var(--border-color)' }}
+          />
+        </div>
+      )}
+
+      {filteredCompetitors.length > 0 ? (
         <div className="flex flex-col gap-8">
           {categories.map((category) => (
             <div key={category} className="category-section">
@@ -111,6 +133,12 @@ function App() {
               </div>
             </div>
           ))}
+        </div>
+      ) : competitors.length > 0 ? (
+        <div className="glass-panel p-8 text-center mt-8">
+          <Search size={48} className="text-muted mx-auto mb-4" opacity={0.5} />
+          <h3 className="text-secondary text-xl">Sin resultados</h3>
+          <p className="text-muted mt-2">No se encontró ningún atleta con el nombre "{searchQuery}".</p>
         </div>
       ) : (
         <div className="glass-panel p-8 text-center mt-8">

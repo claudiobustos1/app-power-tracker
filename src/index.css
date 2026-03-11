@@ -253,3 +253,58 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted); 
 }
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  .responsive-table, 
+  .responsive-table thead, 
+  .responsive-table tbody, 
+  .responsive-table th, 
+  .responsive-table td, 
+  .responsive-table tr { 
+    display: block; 
+  }
+  
+  .responsive-table thead tr { 
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  .responsive-table tr {
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 12px;
+    padding: 0.5rem;
+    background: var(--bg-tertiary);
+  }
+  
+  .responsive-table td {
+    border: none !important;
+    position: relative;
+    padding-left: 50% !important;
+    text-align: right !important;
+    margin-bottom: 0.5rem;
+  }
+  
+  .responsive-table td::before {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 1rem;
+    width: 45%; 
+    padding-right: 10px; 
+    white-space: nowrap;
+    text-align: left;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+  
+  .responsive-table td:nth-of-type(1)::before { content: "Pos."; }
+  .responsive-table td:nth-of-type(2)::before { content: "Atleta"; }
+  .responsive-table td:nth-of-type(3)::before { content: "Categoría"; }
+  .responsive-table td:nth-of-type(4)::before { content: "GL Points"; }
+  .responsive-table td:nth-of-type(5)::before { content: "Wilks"; }
+  .responsive-table td:nth-of-type(6)::before { content: "DOTS"; }
+  .responsive-table td:nth-of-type(7)::before { content: "Total"; }
+}

@@ -11,8 +11,13 @@ type SortOption = 'Total' | 'GLPoints' | 'Wilks' | 'DOTS';
 
 export const RankingView: React.FC<Props> = ({ competitors, onBack }) => {
   const [sortBy, setSortBy] = useState<SortOption>('GLPoints');
+  const [categoryFilter, setCategoryFilter] = useState<string>('Todas');
 
-  const sortedCompetitors = [...competitors].sort((a, b) => {
+  const uniqueCategories = ['Todas', ...Array.from(new Set(competitors.map(c => c.category)))].sort();
+
+  const sortedCompetitors = [...competitors]
+    .filter(c => categoryFilter === 'Todas' || c.category === categoryFilter)
+    .sort((a, b) => {
     if (sortBy === 'Total') return b.total - a.total;
     if (sortBy === 'GLPoints') return b.glPoints - a.glPoints;
     if (sortBy === 'Wilks') return b.wilksPoints - a.wilksPoints;
@@ -70,11 +75,25 @@ export const RankingView: React.FC<Props> = ({ competitors, onBack }) => {
           </div>
         </div>
 
+        <div className="mb-6 flex items-center gap-3">
+          <label className="text-secondary text-sm font-medium">Filtrar por Categoría:</label>
+          <select 
+            className="input-field" 
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+            style={{ padding: '0.4rem 1rem', width: 'auto', minWidth: '200px' }}
+          >
+            {uniqueCategories.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+        </div>
+
         {sortedCompetitors.length === 0 ? (
           <p className="text-secondary text-center py-8">No hay competidores registrados aún.</p>
         ) : (
           <div className="overflow-x-auto" style={{ overflowX: 'auto', width: '100%' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+            <table className="responsive-table" style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border-color)' }}>
                   <th className="p-4 text-secondary font-medium">Pos.</th>
