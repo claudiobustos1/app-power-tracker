@@ -106,3 +106,36 @@ export const calculateGLPoints = (competitor: Competitor): number => {
   return Math.round(glPoints * 100) / 100; // Round to 2 decimals
 };
 
+export const calculateDOTS = (competitor: Competitor): number => {
+  if (competitor.total === 0 || !competitor.bodyweight) return 0;
+
+  const bw = competitor.bodyweight;
+  const isFemale = competitor.gender === 'Femenino';
+
+  let a, b, c, d, e;
+
+  if (isFemale) {
+    a = -0.0000010706;
+    b = 0.0005158568;
+    c = -0.1126655495;
+    d = 13.6175032;
+    e = -57.96288;
+  } else {
+    // Masculino
+    a = -0.0000010930;
+    b = 0.0007391293;
+    c = -0.1918759221;
+    d = 24.0900756;
+    e = -307.75076;
+  }
+
+  const denominator = a * Math.pow(bw, 4) + b * Math.pow(bw, 3) + c * Math.pow(bw, 2) + d * bw + e;
+
+  if (denominator === 0) return 0;
+
+  const multiplier = 500 / denominator;
+  const dots = competitor.total * multiplier;
+  
+  return Math.round(dots * 100) / 100;
+};
+

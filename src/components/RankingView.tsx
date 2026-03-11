@@ -7,7 +7,7 @@ interface Props {
   onBack: () => void;
 }
 
-type SortOption = 'Total' | 'GLPoints' | 'Wilks';
+type SortOption = 'Total' | 'GLPoints' | 'Wilks' | 'DOTS';
 
 export const RankingView: React.FC<Props> = ({ competitors, onBack }) => {
   const [sortBy, setSortBy] = useState<SortOption>('GLPoints');
@@ -16,6 +16,7 @@ export const RankingView: React.FC<Props> = ({ competitors, onBack }) => {
     if (sortBy === 'Total') return b.total - a.total;
     if (sortBy === 'GLPoints') return b.glPoints - a.glPoints;
     if (sortBy === 'Wilks') return b.wilksPoints - a.wilksPoints;
+    if (sortBy === 'DOTS') return b.dotsPoints - a.dotsPoints;
     return 0;
   });
 
@@ -53,6 +54,13 @@ export const RankingView: React.FC<Props> = ({ competitors, onBack }) => {
               Wilks2
             </button>
             <button 
+              className={`btn ${sortBy === 'DOTS' ? 'btn-primary' : ''}`}
+              style={sortBy !== 'DOTS' ? { background: 'var(--bg-tertiary)' } : {}}
+              onClick={() => setSortBy('DOTS')}
+            >
+              DOTS
+            </button>
+            <button 
               className={`btn ${sortBy === 'Total' ? 'btn-primary' : ''}`}
               style={sortBy !== 'Total' ? { background: 'var(--bg-tertiary)' } : {}}
               onClick={() => setSortBy('Total')}
@@ -74,6 +82,7 @@ export const RankingView: React.FC<Props> = ({ competitors, onBack }) => {
                   <th className="p-4 text-secondary font-medium">Categoría</th>
                   <th className="p-4 text-secondary font-medium text-center">GL Points</th>
                   <th className="p-4 text-secondary font-medium text-center">Wilks</th>
+                  <th className="p-4 text-secondary font-medium text-center">DOTS</th>
                   <th className="p-4 text-secondary font-medium text-right">Total</th>
                 </tr>
               </thead>
@@ -106,6 +115,11 @@ export const RankingView: React.FC<Props> = ({ competitors, onBack }) => {
                     <td className="p-4 text-center">
                       <span className={sortBy === 'Wilks' ? 'title-gradient font-bold' : ''}>
                         {competitor.wilksPoints}
+                      </span>
+                    </td>
+                    <td className="p-4 text-center">
+                      <span className={sortBy === 'DOTS' ? 'title-gradient font-bold' : ''}>
+                        {competitor.dotsPoints}
                       </span>
                     </td>
                     <td className="p-4 text-right">

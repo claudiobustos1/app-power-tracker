@@ -187,6 +187,10 @@ export const CompetitorCard: React.FC<Props> = ({ competitor, onAddAttempt, onRe
             <span className="text-secondary font-medium text-xs">Puntos Wilks</span>
             <span className="text-primary font-bold">{competitor.wilksPoints}</span>
           </div>
+          <div className="flex flex-col">
+            <span className="text-secondary font-medium text-xs">Puntos DOTS</span>
+            <span className="text-primary font-bold">{competitor.dotsPoints}</span>
+          </div>
         </div>
         <div className="flex flex-col text-right">
           <span className="text-secondary font-medium">Total:</span>

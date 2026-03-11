@@ -17,4 +17,5 @@ export interface Competitor {
   total: number;
   wilksPoints: number;
   glPoints: number;
+  dotsPoints: number;
 }

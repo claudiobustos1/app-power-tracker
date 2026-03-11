@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Competitor, Attempt } from '../types';
-import { calculateTotal, determineCategory, calculateWilksPoints, calculateGLPoints } from '../utils/calculations';
+import { calculateTotal, determineCategory, calculateWilksPoints, calculateGLPoints, calculateDOTS } from '../utils/calculations';
 
 const STORAGE_KEY = 'powerlifting-app-data';
 
@@ -17,7 +17,8 @@ export const usePowerlifting = () => {
           age: c.age || 20,
           category: c.category || determineCategory(c.age || 20),
           wilksPoints: c.wilksPoints !== undefined ? c.wilksPoints : calculateWilksPoints(c),
-          glPoints: c.glPoints !== undefined ? c.glPoints : calculateGLPoints(c)
+          glPoints: c.glPoints !== undefined ? c.glPoints : calculateGLPoints(c),
+          dotsPoints: c.dotsPoints !== undefined ? c.dotsPoints : calculateDOTS(c)
         })) as Competitor[];
       } catch (e) {
         console.error('Failed to parse saved data', e);
@@ -45,6 +46,7 @@ export const usePowerlifting = () => {
       total: 0,
       wilksPoints: 0,
       glPoints: 0,
+      dotsPoints: 0,
     };
     setCompetitors((prev) => [...prev, newCompetitor]);
   };
@@ -82,6 +84,7 @@ export const usePowerlifting = () => {
         updatedCompetitor.total = calculateTotal(updatedCompetitor);
         updatedCompetitor.wilksPoints = calculateWilksPoints(updatedCompetitor);
         updatedCompetitor.glPoints = calculateGLPoints(updatedCompetitor);
+        updatedCompetitor.dotsPoints = calculateDOTS(updatedCompetitor);
         
         return updatedCompetitor;
       })
@@ -108,6 +111,7 @@ export const usePowerlifting = () => {
               updatedCompetitor.total = calculateTotal(updatedCompetitor);
               updatedCompetitor.wilksPoints = calculateWilksPoints(updatedCompetitor);
               updatedCompetitor.glPoints = calculateGLPoints(updatedCompetitor);
+              updatedCompetitor.dotsPoints = calculateDOTS(updatedCompetitor);
               return updatedCompetitor;
           })
       );
