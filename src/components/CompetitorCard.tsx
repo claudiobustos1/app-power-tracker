@@ -142,7 +142,7 @@ export const CompetitorCard: React.FC<Props> = ({ competitor, onAddAttempt, onRe
           )}
 
           <span className="badge badge-neutral" style={{ background: 'rgba(59, 130, 246, 0.15)', color: 'var(--accent-primary)' }}>
-            {competitor.gender === 'Masculino' ? '♂️' : competitor.gender === 'Femenino' ? '♀️' : '⚥'} {competitor.gender}
+            {competitor.gender === 'Femenino' ? '♀️' : '♂️'} {competitor.gender}
           </span>
           <span className="badge badge-neutral" style={{ background: 'rgba(234, 179, 8, 0.15)', color: '#eab308' }}>
             {competitor.equipment}
